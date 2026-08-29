@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Calendar, ExternalLink, Sparkles, Check, ChevronDown, Plus, Cpu, UserCheck } from "lucide-react";
+import { Play, Calendar, ExternalLink, Sparkles, Check, ChevronDown, Plus, Cpu, UserCheck, Eye, X } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 
 export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [showAddGuide, setShowAddGuide] = useState<boolean>(false);
+  const [activeImageModal, setActiveImageModal] = useState<{ src: string; title: string } | null>(null);
 
-  const categories = ["All", "Full-Stack", "Frontend", "Backend", "AI / Machine Learning"];
+  const categories = ["All", "Full-Stack", "Frontend", "Backend", "AI / Desktop"];
 
-  const filteredProjects = projectsData.filter(p => 
+  const filteredProjects = projectsData.filter(p =>
     selectedCategory === "All" ? true : p.category === selectedCategory
   );
 
@@ -17,7 +18,7 @@ export default function ProjectsSection() {
     <section id="projects" className="py-24 relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
-        <motion.span 
+        <motion.span
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -25,7 +26,7 @@ export default function ProjectsSection() {
         >
           Portfolio Showcase
         </motion.span>
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -45,11 +46,10 @@ export default function ProjectsSection() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
-              selectedCategory === cat
+            className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${selectedCategory === cat
                 ? "bg-teal-500 text-slate-950 font-bold shadow-lg shadow-teal-500/20"
                 : "bg-slate-900/80 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white"
-            }`}
+              }`}
           >
             {cat}
           </button>
@@ -70,11 +70,48 @@ export default function ProjectsSection() {
               className="glass-card rounded-3xl border border-slate-800/80 overflow-hidden shadow-2xl hover:border-teal-500/30 transition-all duration-500"
             >
               <div className="grid lg:grid-cols-12 gap-0">
-                {/* Left Column: Visual / Meta Overview */}
-                <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-[#0c1629] to-slate-950 p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800/80 relative overflow-hidden">
+                {/* Left Column: Visual Banner + Overview */}
+                <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-[#0c1629] to-slate-950 p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-800/80 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
                   <div className="space-y-4">
+                    {/* Render Screenshot UI Banner for Mello & E-Commerce */}
+                    {project.id === "mello-wellness" && (
+                      <div 
+                        onClick={() => setActiveImageModal({ src: "/mello-bg.jpg", title: "Mello — Mood Valley Interface" })}
+                        className="relative rounded-2xl overflow-hidden border border-teal-500/40 shadow-xl group cursor-pointer aspect-video bg-slate-950 mb-2"
+                      >
+                        <img 
+                          src="/mello-bg.jpg" 
+                          alt="Mello Mood Valley Map" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <span className="inline-flex items-center gap-1.5 bg-slate-900/90 text-teal-300 border border-teal-500/40 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-lg">
+                            <Eye size={14} /> View Mood Valley UI
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {project.id === "ecommerce-store" && (
+                      <div 
+                        onClick={() => setActiveImageModal({ src: "/ecommerce-store.png", title: "MyStore — E-Commerce Interface" })}
+                        className="relative rounded-2xl overflow-hidden border border-teal-500/40 shadow-xl group cursor-pointer aspect-video bg-slate-950 mb-2"
+                      >
+                        <img 
+                          src="/ecommerce-store.png" 
+                          alt="MyStore E-Commerce Application" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <span className="inline-flex items-center gap-1.5 bg-slate-900/90 text-teal-300 border border-teal-500/40 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-lg">
+                            <Eye size={14} /> View MyStore UI
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
                       <span className="px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-semibold">
                         {project.category}
@@ -84,10 +121,10 @@ export default function ProjectsSection() {
                       </span>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                    <h3 className="text-2xl font-extrabold text-white leading-tight">
                       {project.title}
                     </h3>
-                    
+
                     <p className="text-slate-300 text-sm leading-relaxed">
                       {project.description}
                     </p>
@@ -132,7 +169,7 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Right Column: Features & Video Demos */}
-                <div className="lg:col-span-7 p-8 lg:p-10 flex flex-col justify-between space-y-8 bg-[#0b1326]/40">
+                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-8 bg-[#0b1326]/40">
                   {/* Features List */}
                   <div>
                     <h4 className="text-sm font-bold uppercase tracking-wider text-teal-400 mb-4 flex items-center gap-2">
@@ -211,6 +248,34 @@ export default function ProjectsSection() {
         </AnimatePresence>
       </div>
 
+      {/* Lightbox Modal for UI Screenshots */}
+      {activeImageModal && (
+        <div 
+          onClick={() => setActiveImageModal(null)}
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-4xl w-full bg-[#0c1629] border border-slate-700 rounded-3xl overflow-hidden shadow-2xl p-4"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3 px-2">
+              <h4 className="text-sm font-bold text-white">{activeImageModal.title}</h4>
+              <button 
+                onClick={() => setActiveImageModal(null)}
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg bg-slate-900"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <img 
+              src={activeImageModal.src} 
+              alt={activeImageModal.title} 
+              className="w-full h-auto rounded-2xl max-h-[80vh] object-contain bg-slate-950"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Guide Box on How to Add New Projects */}
       <div className="mt-16">
         <div className="glass-card rounded-2xl border border-slate-800/80 p-6">
@@ -241,7 +306,7 @@ export default function ProjectsSection() {
                 Open <code className="bg-slate-900 text-teal-400 px-2 py-1 rounded">src/data/projectsData.ts</code> and add a new object to the array:
               </p>
               <pre className="text-slate-300 text-xs overflow-x-auto p-3 bg-slate-900 rounded-lg border border-slate-800">
-{`{
+                {`{
   id: "mello-wellness",
   title: "Mello – Mental Wellness Platform",
   category: "Full-Stack",

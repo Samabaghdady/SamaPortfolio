@@ -1,13 +1,10 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { motion } from "framer-motion";
-import { Mail, MapPin, Copy, Check, Send, MessageSquare, Phone, FileText } from "lucide-react";
+import { Mail, MapPin, Copy, Check, Send, Phone, FileText } from "lucide-react";
 
 export default function ContactSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
 
   const email = "Samaalbaghdady90@gmail.com";
   const phone = "(+20) 01112242740";
@@ -22,39 +19,6 @@ export default function ContactSection() {
     navigator.clipboard.writeText("01112242740");
     setCopiedPhone(true);
     setTimeout(() => setCopiedPhone(false), 2500);
-  };
-
-  const encode = (data: Record<string, string>) => {
-    return Object.keys(data)
-      .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // 1. Submit to Netlify Forms format
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({
-        "form-name": "contact",
-        ...formData,
-      }),
-    })
-      .then(() => {
-        setIsSubmitting(false);
-        setFormSubmitted(true);
-      })
-      .catch(() => {
-        // Fallback: trigger mailto if offline/local
-        setIsSubmitting(false);
-        setFormSubmitted(true);
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-          `From: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`
-        )}`;
-      });
   };
 
   const contactMethods = [
@@ -118,7 +82,7 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className="text-teal-400 font-mono text-xs uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 inline-block mb-3"
         >
-          Let's Connect
+          Keep In Touch
         </motion.span>
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -127,199 +91,96 @@ export default function ContactSection() {
           transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4"
         >
-          Get In <span className="gradient-text">Touch</span>
+          Let's <span className="gradient-text">Connect</span>
         </motion.h2>
         <p className="text-slate-400 text-base sm:text-lg">
-          Interested in discussing software engineering opportunities, reviewing my work, or collaborating on a project? Reach out anytime!
+          Interested in software engineering opportunities, reviewing my work, or discussing projects? Reach out via email, phone, or social profiles!
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-10">
-        {/* Left Column: Contact Cards */}
-        <div className="lg:col-span-5 space-y-4">
-          {contactMethods.map((method, idx) => (
-            <motion.div
-              key={method.title}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.08 * idx }}
-              className="glass-card glass-card-hover p-5 rounded-2xl border border-slate-800/80 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-4">
+      {/* Grid of Contact Cards */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {contactMethods.map((method, idx) => (
+          <motion.div
+            key={method.title}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.08 * idx }}
+            className="glass-card glass-card-hover p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
                 <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 shrink-0">
                   {method.icon}
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white mb-0.5">{method.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-300 font-mono break-all">{method.value}</p>
-                  {method.sub && <p className="text-[11px] text-slate-400 mt-0.5">{method.sub}</p>}
+                <div className="flex items-center gap-2">
+                  {method.action && (
+                    <button
+                      onClick={method.action}
+                      className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-teal-500/40 text-slate-300 hover:text-teal-400 transition-colors"
+                      title={method.actionLabel}
+                    >
+                      {method.copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                    </button>
+                  )}
+                  {method.href && (
+                    <a
+                      href={method.href}
+                      target={method.external ? "_blank" : undefined}
+                      rel={method.external ? "noopener noreferrer" : undefined}
+                      className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-teal-500/40 text-slate-300 hover:text-teal-400 transition-colors"
+                      title="Open Link"
+                    >
+                      <Send size={14} />
+                    </a>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                {method.href && (
-                  <a
-                    href={method.href}
-                    target={method.external ? "_blank" : undefined}
-                    rel={method.external ? "noopener noreferrer" : undefined}
-                    className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-teal-500/40 text-slate-300 hover:text-teal-400 transition-colors"
-                    title="Open Link"
-                  >
-                    <Send size={15} />
-                  </a>
-                )}
-
-                {method.action && (
-                  <button
-                    onClick={method.action}
-                    className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-teal-500/40 text-slate-300 hover:text-teal-400 transition-colors"
-                    title={method.actionLabel}
-                  >
-                    {method.copied ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />}
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          ))}
-
-          {/* CV Links Banner */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-teal-950/40 via-slate-900 to-slate-950 border border-teal-500/20 text-center space-y-3">
-            <h4 className="text-sm font-bold text-white">Curriculum Vitae (CV)</h4>
-            <p className="text-xs text-slate-400">View or download Sama Albaghdady's official resume</p>
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              <a
-                href="/SamaAlbaghdadyCv.pdf"
-                download="SamaAlbaghdadyCv.pdf"
-                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-full text-xs shadow-lg hover:from-teal-400 hover:to-emerald-400 transition-all"
-              >
-                <FileText size={14} />
-                <span>Download PDF CV</span>
-              </a>
-              <a
-                href="https://drive.google.com/file/d/1tRQBWoXKSTND6oYk6GK5KjxZK3QsTcu9/view?usp=sharing"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-slate-900 text-slate-200 border border-slate-700 hover:border-teal-500/50 font-medium px-4 py-2 rounded-full text-xs transition-all"
-              >
-                <Send size={12} />
-                <span>View on Google Drive</span>
-              </a>
+              <h3 className="text-base font-bold text-white mb-1">{method.title}</h3>
+              <p className="text-xs sm:text-sm text-slate-300 font-mono break-all">{method.value}</p>
+              {method.sub && <p className="text-xs text-slate-400 mt-1">{method.sub}</p>}
             </div>
-          </div>
-        </div>
-
-        {/* Right Column: Message Form with Netlify Forms Integration */}
-        <div className="lg:col-span-7">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="glass-card p-8 rounded-3xl border border-slate-800/80 shadow-2xl relative"
-          >
-            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-              <MessageSquare size={20} className="text-teal-400" />
-              <span>Send Me a Message</span>
-            </h3>
-            <p className="text-xs text-slate-400 mb-6">
-              Messages submitted here are sent directly to <strong className="text-teal-300">Samaalbaghdady90@gmail.com</strong>
-            </p>
-
-            {formSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="py-12 text-center space-y-4"
-              >
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
-                  <Check size={32} />
-                </div>
-                <h4 className="text-xl font-bold text-white">Message Sent Successfully!</h4>
-                <p className="text-slate-300 text-sm max-w-md mx-auto">
-                  Thank you for reaching out! Your message has been routed to Sama's inbox.
-                </p>
-                <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-xs text-teal-400 font-mono hover:bg-slate-800"
-                >
-                  Send another message
-                </button>
-              </motion.div>
-            ) : (
-              <form 
-                name="contact" 
-                method="POST" 
-                data-netlify="true" 
-                onSubmit={handleSubmit} 
-                className="space-y-4"
-              >
-                <input type="hidden" name="form-name" value="contact" />
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5 uppercase tracking-wider">Your Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="e.g. Hiring Manager"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-mono text-slate-300 mb-1.5 uppercase tracking-wider">Your Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="manager@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-slate-300 mb-1.5 uppercase tracking-wider">Subject</label>
-                  <input
-                    type="text"
-                    name="subject"
-                    required
-                    placeholder="Software Engineer Opportunity / Project Inquiry"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-slate-300 mb-1.5 uppercase tracking-wider">Message</label>
-                  <textarea
-                    name="message"
-                    rows={4}
-                    required
-                    placeholder="Write your message here..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold py-3.5 rounded-xl text-sm transition-all duration-300 shadow-xl shadow-teal-500/20 hover:shadow-teal-500/35 flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  <Send size={16} />
-                  <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
-                </button>
-              </form>
-            )}
           </motion.div>
-        </div>
+        ))}
+
+        {/* CV Links Banner Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="glass-card glass-card-hover p-6 rounded-2xl border border-teal-500/30 bg-gradient-to-br from-teal-950/40 via-slate-900 to-slate-950 flex flex-col justify-between"
+        >
+          <div>
+            <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-500/30 w-fit mb-4 text-teal-400">
+              <FileText size={24} />
+            </div>
+            <h3 className="text-base font-bold text-white mb-1">Curriculum Vitae (CV)</h3>
+            <p className="text-xs text-slate-400 mb-4">View or download Sama Albaghdady's resume</p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            <a
+              href="/SamaAlbaghdadyCv.pdf"
+              download="SamaAlbaghdadyCv.pdf"
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-bold px-3.5 py-2 rounded-full text-xs shadow-lg hover:from-teal-400 hover:to-emerald-400 transition-all"
+            >
+              <FileText size={13} />
+              <span>Download PDF</span>
+            </a>
+            <a
+              href="https://drive.google.com/file/d/1tRQBWoXKSTND6oYk6GK5KjxZK3QsTcu9/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 bg-slate-900 text-slate-200 border border-slate-700 hover:border-teal-500/50 font-medium px-3.5 py-2 rounded-full text-xs transition-all"
+            >
+              <Send size={12} />
+              <span>Drive Link</span>
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
