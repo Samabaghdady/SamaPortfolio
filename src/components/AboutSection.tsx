@@ -29,8 +29,8 @@ export default function AboutSection() {
   ];
 
   const contactDetails = [
-    { label: "Phone",    value: "(+20) 01112242740",            href: "tel:+2001112242740",           icon: <Phone size={16} style={{ color: 'var(--olive)' }} /> },
-    { label: "Email",    value: "Samaalbaghdady90@gmail.com",   href: "mailto:Samaalbaghdady90@gmail.com", icon: <Mail size={16} style={{ color: 'var(--olive)' }} /> },
+    { label: "Phone", value: "(+20) 01112242740", href: "tel:+2001112242740", icon: <Phone size={16} style={{ color: 'var(--olive)' }} /> },
+    { label: "Email", value: "Samaalbaghdady90@gmail.com", href: "mailto:Samaalbaghdady90@gmail.com", icon: <Mail size={16} style={{ color: 'var(--olive)' }} /> },
     {
       label: "LinkedIn",
       value: "sama-albaghdady-19b75531a",
@@ -47,10 +47,9 @@ export default function AboutSection() {
   ];
 
   const stats = [
-    { value: "3.7+", label: "GPA" },
-    { value: "15+",  label: "Projects" },
-    { value: "12+",  label: "Technologies" },
-    { value: "4+",   label: "Years Coding" },
+    { value: "10+", label: "Projects" },
+    { value: "12+", label: "Technologies" },
+    { value: "3+", label: "Years Coding" },
   ];
 
   const skills = [
