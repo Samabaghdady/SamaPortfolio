@@ -17,14 +17,14 @@ export const skillCategoriesData: SkillCategory[] = [
     description: "Building responsive web applications, backend APIs, and desktop GUIs.",
     iconName: "Globe",
     skills: [
-      { name: "React", level: "Advanced" },
       { name: "Node.js & Express", level: "Advanced" },
       { name: "Spring Boot", level: "Proficient" },
       { name: "EJS Templates", level: "Advanced" },
       { name: "Chart.js & Three.js", level: "Proficient" },
       { name: "Tkinter (Python GUI)", level: "Proficient" },
       { name: "wxWidgets (C++ GUI)", level: "Proficient" },
-      { name: "Tailwind CSS & HTML5/CSS3", level: "Advanced" }
+      { name: "Tailwind CSS & HTML5/CSS3", level: "Advanced" },
+      { name: "React", level: "Advanced" }
     ]
   },
   {
@@ -34,8 +34,8 @@ export const skillCategoriesData: SkillCategory[] = [
     iconName: "Code2",
     skills: [
       { name: "C++", level: "Advanced" },
-      { name: "Java", level: "Advanced" },
       { name: "Python", level: "Proficient" },
+      { name: "Java", level: "Advanced" },
       { name: "JavaScript (ES6+)", level: "Advanced" },
       { name: "TypeScript", level: "Proficient" },
       { name: "Functional Programming", level: "Proficient" }

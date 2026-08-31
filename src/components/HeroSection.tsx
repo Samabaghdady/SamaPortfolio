@@ -1,126 +1,198 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowDown, GraduationCap, FileText, ChevronRight } from "lucide-react";
+import { ArrowDown, ArrowRight, FileText } from "lucide-react";
 
 export default function HeroSection() {
-  const scrollToProjects = () => {
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
-  const scrollToAbout = () => {
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const techBadges = ["React", "Spring Boot", "C++", "Java", "Python", "Node.js", "MongoDB", "OpenCV", "Figma"];
+  const techBadges = ["C++", "Java", "Python", "Node.js", "MongoDB", "OpenCV", "Figma", "React", "Spring Boot"];
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
-      {/* Dynamic Overlay & Grid Background */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#070d19]/80 to-[#070d19] pointer-events-none" />
+    <section
+      id="hero"
+      className="relative min-h-screen overflow-hidden"
+      style={{ background: 'var(--bg-cream)' }}
+    >
+      {/* ── Sidebar vertical labels ── */}
+      <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-6">
+        <div className="sidebar-text">UI / UX Design</div>
+        <div className="w-px h-16" style={{ background: 'var(--border-soft)' }} />
+        <div className="sidebar-text">Web Development</div>
+        <div className="w-px h-16" style={{ background: 'var(--border-soft)' }} />
+        <div className="sidebar-text">Software Engineering</div>
+      </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-6">
+        <div className="sidebar-text">Branding</div>
+        <div className="w-px h-16" style={{ background: 'var(--border-soft)' }} />
+        <div className="sidebar-text">Digital Experiences</div>
+      </div>
+
+      {/* ── Top bar ── */}
+      <div className="max-w-7xl mx-auto px-8 lg:px-20 pt-36 pb-0 flex items-center justify-between text-xs font-mono tracking-widest uppercase" style={{ color: 'var(--text-muted)' }}>
+        <span>Software Developer</span>
+        <div className="flex items-center gap-2" style={{ color: 'var(--olive)' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse inline-block" />
+          <span>Available for Opportunities</span>
+        </div>
+      </div>
+
+      {/* ── Giant PORTFOLIO headline ── */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-6"
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="display-giant text-[clamp(4rem,14vw,13rem)] text-center leading-[0.85] pt-4 pb-0 select-none"
+          style={{ color: 'var(--text-primary)' }}
         >
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-teal-500/30 text-teal-300 text-sm font-mono backdrop-blur-md shadow-lg shadow-teal-500/10">
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse" />
-            <GraduationCap size={16} className="text-teal-400" />
-            <span>Senior CS Student @ Misr International University (MIU)</span>
-          </div>
-          
-          {/* Main Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
-            Hi, I'm <span className="gradient-text">Sama Albaghdady</span>
-            <br />
-            <span className="text-slate-300 font-bold text-4xl sm:text-5xl md:text-6xl block mt-2">
-              Software Developer & Computer Scientist
+          PORTFOLIO
+        </motion.div>
+
+        {/* ── Profile photo circle + intro block ── */}
+        <div className="grid lg:grid-cols-12 gap-6 items-end -mt-8 lg:-mt-16 relative z-10">
+          {/* Left: Name + tagline */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25, duration: 0.8 }}
+            className="lg:col-span-5 pb-8"
+          >
+            <span className="text-sm font-semibold tracking-wider uppercase mb-2 block" style={{ color: 'var(--text-muted)' }}>
+              Hello, I'm
             </span>
-          </h1>
-          
-          {/* Tagline / Subtitle */}
-          <p className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
-            Computer Science senior student specializing in full-stack web applications, desktop software systems, AI & computer vision, and user interface design.
-          </p>
+            <h1 className="display-giant text-[clamp(2.6rem,6vw,5rem)]" style={{ color: 'var(--text-primary)' }}>
+              SAMA<br />ALBAGHDADY
+            </h1>
+            <p className="mt-2 text-sm font-semibold tracking-widest uppercase" style={{ color: 'var(--olive)' }}>
+              Software Developer &amp; Computer Scientist
+            </p>
 
-          {/* Quick Skill Chips */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 pb-4">
-            {techBadges.map((badge) => (
-              <span 
-                key={badge}
-                className="px-3 py-1 text-xs font-mono rounded-lg bg-slate-900/70 border border-slate-800 text-slate-300 hover:border-teal-500/40 hover:text-teal-300 transition-colors"
+            <p className="mt-5 text-sm leading-relaxed max-w-sm" style={{ color: 'var(--text-secondary)' }}>
+              I craft modern, full-stack applications that combine elegant engineering with intuitive design — from web platforms to desktop systems and AI-powered tools.
+            </p>
+
+            {/* Signature-style divider */}
+            <div className="mt-5 flex items-center gap-4">
+              <span className="font-serif italic text-xl" style={{ color: 'var(--olive)' }}>Sama Albaghdady</span>
+              <div className="flex-1 h-px" style={{ background: 'var(--border-soft)' }} />
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center gap-3 mt-6">
+              <button onClick={() => scrollTo("projects")} className="btn-olive">
+                View Projects <ArrowRight size={14} />
+              </button>
+              <Link to="/cv" className="btn-ghost">
+                <FileText size={14} /> CV
+              </Link>
+              {/* Social icons */}
+              <a
+                href="https://www.linkedin.com/in/sama-albaghdady-19b75531a"
+                target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full border flex items-center justify-center transition-all"
+                style={{ borderColor: 'var(--border-soft)', color: 'var(--text-muted)' }}
+                title="LinkedIn"
               >
-                #{badge}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/Samabaghdady"
+                target="_blank" rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full border flex items-center justify-center transition-all"
+                style={{ borderColor: 'var(--border-soft)', color: 'var(--text-muted)' }}
+                title="GitHub"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Center: Profile photo with olive circle bg */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.9 }}
+            className="lg:col-span-4 flex justify-center items-end"
+          >
+            <div className="relative">
+              {/* Big olive circle behind photo */}
+              <div
+                className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full"
+                style={{ background: 'var(--olive-light)', opacity: 0.22, filter: 'blur(2px)' }}
+              />
+              <div
+                className="relative w-52 h-64 sm:w-60 sm:h-72 rounded-3xl overflow-hidden border-4 shadow-2xl"
+                style={{ borderColor: 'var(--beige-light)' }}
+              >
+                <img
+                  src="/profile-photo.jpg"
+                  alt="Sama Albaghdady"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).src = "/profile-photo.jpeg"; }}
+                />
+                {/* Name / title overlay at bottom */}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,24,20,0.62) 0%, transparent 55%)' }} />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                  <p className="text-white font-bold text-sm">Sama Albaghdady</p>
+                  <p className="text-[10px] font-mono tracking-wide mt-0.5" style={{ color: 'var(--beige-light)' }}>CS Senior @ MIU</p>
+                  <div className="mt-1.5 flex items-center justify-center gap-1.5 text-[10px] font-semibold" style={{ color: '#a8e6a0' }}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
+                    Open for Opportunities
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Tech cloud + scroll cue */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="lg:col-span-3 flex flex-col justify-end pb-8 gap-5"
+          >
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest block mb-3" style={{ color: 'var(--text-muted)' }}>
+                Core Technologies
               </span>
-            ))}
-          </div>
+              <div className="flex flex-wrap gap-2">
+                {techBadges.map((b) => (
+                  <span key={b} className="tech-pill cursor-default transition-all">{b}</span>
+                ))}
+              </div>
+            </div>
 
-          {/* Call to Actions */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
             <button
-              onClick={scrollToProjects}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-bold px-7 py-3.5 rounded-full text-base transition-all duration-300 shadow-xl shadow-teal-500/25 hover:shadow-teal-500/40 hover:-translate-y-1 group"
+              onClick={() => scrollTo("about")}
+              className="inline-flex flex-col items-center gap-1.5 self-start group"
+              style={{ color: 'var(--text-muted)' }}
             >
-              <span>Explore My Work</span>
-              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <Link
-              to="/cv"
-              className="inline-flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-teal-500/50 text-slate-200 hover:text-teal-300 font-semibold px-6 py-3.5 rounded-full text-base transition-all duration-300 shadow-lg hover:-translate-y-1"
-            >
-              <FileText size={18} className="text-teal-400" />
-              <span>View CV</span>
-            </Link>
-
-            <a
-              href="https://www.linkedin.com/in/sama-albaghdady-19b75531a"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-teal-400 hover:border-teal-500/50 hover:bg-slate-800 transition-all duration-300 shadow-lg"
-              title="LinkedIn Profile"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                <rect x="2" y="9" width="4" height="12" />
-                <circle cx="4" cy="4" r="2" />
-              </svg>
-            </a>
-
-            <a
-              href="https://github.com/Samabaghdady"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-teal-400 hover:border-teal-500/50 hover:bg-slate-800 transition-all duration-300 shadow-lg"
-              title="GitHub Profile"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Scroll Down Indicator */}
-          <div className="pt-14">
-            <button
-              onClick={scrollToAbout}
-              className="inline-flex flex-col items-center gap-2 text-slate-400 hover:text-teal-400 transition-colors group"
-            >
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-400 group-hover:text-teal-400">Scroll to About</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest group-hover:text-[var(--olive)] transition-colors">
+                Scroll Down
+              </span>
               <motion.div
-                animate={{ y: [0, 8, 0] }}
+                animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="w-10 h-10 rounded-full bg-slate-900/80 border border-slate-800 flex items-center justify-center text-teal-400 group-hover:border-teal-500/40"
+                className="w-8 h-8 rounded-full border flex items-center justify-center transition-colors group-hover:border-[var(--olive)]"
+                style={{ borderColor: 'var(--border-soft)' }}
               >
-                <ArrowDown size={18} />
+                <ArrowDown size={14} style={{ color: 'var(--olive)' }} />
               </motion.div>
             </button>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── Bottom divider line ── */}
+      <div className="max-w-7xl mx-auto px-8 lg:px-20 mt-10">
+        <div className="h-px" style={{ background: 'var(--border-soft)' }} />
       </div>
     </section>
   );
