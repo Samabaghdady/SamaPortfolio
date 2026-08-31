@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Calendar, ExternalLink, Check, Cpu, UserCheck, Eye, X, ArrowRight } from "lucide-react";
+import { Play, Calendar, ExternalLink, Check, Cpu, UserCheck, Eye, X, } from "lucide-react";
 import { projectsData } from "../data/projectsData";
-
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Terminal as TerminalIcon, CornerDownLeft, Sparkles, Check, Copy } from "lucide-react";
+import { Terminal as TerminalIcon, CornerDownLeft, Check, Copy } from "lucide-react";
 import { playSound } from "../lib/audioUtils";
 
 interface InteractiveTerminalProps {

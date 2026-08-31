@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Code2, FolderGit2, Mail, FileText, Sparkles, X, Terminal, Palette, ArrowRight } from "lucide-react";
+import { Search, Code2, FolderGit2, Mail, Sparkles, X, Terminal, Palette, ArrowRight } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import { skillCategoriesData } from "../data/skillsData";
 import { playSound } from "../lib/audioUtils";
