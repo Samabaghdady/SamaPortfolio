@@ -58,7 +58,7 @@ export default function AboutSection() {
     "Computer Vision (OpenCV & Face Recognition)",
     "Database Management (MongoDB & MySQL)",
     "UI/UX Design in Figma & Adobe Suite",
-    "Languages: Arabic (Native), English (Fluent)",
+    "Languages: Arabic (Native), English ",
   ];
 
   return (
